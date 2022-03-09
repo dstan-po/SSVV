@@ -1,6 +1,3 @@
-package ssvv.v0;
-
-
 import domain.Nota;
 import domain.Student;
 import domain.Tema;
