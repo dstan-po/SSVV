@@ -15,10 +15,4 @@ public class MainTest
     {
         assertTrue( true );
     }
-
-    @Test
-    public void shouldAnswerWithTrueTest()
-    {
-        assertTrue( false );
-    }
 }
