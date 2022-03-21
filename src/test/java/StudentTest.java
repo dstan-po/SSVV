@@ -36,7 +36,7 @@ public class StudentTest {
     }
 
     @Test
-    public void Test_addStudent_Success_Test() {
+    public void addStudent_Success_Test() {
         Student newStudent = new Student("2822", "Ionel", 223);
         service.saveStudent("2822", "Ionel", 223);
         Iterable<Student> newStudentList = service.findAllStudents();
@@ -49,7 +49,7 @@ public class StudentTest {
     }
 
     @Test
-    public void Test_addStudent_Fail_Test() {
+    public void addStudent_Fail_Test() {
         System.out.println(service);
         Iterable<Student> initialStudentList = service.findAllStudents();
 
