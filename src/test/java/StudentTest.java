@@ -2,8 +2,10 @@ import domain.Nota;
 import domain.Student;
 import domain.Tema;
 import org.junit.Before;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.omg.CORBA.portable.ApplicationException;
 import repository.NotaXMLRepository;
 import repository.StudentXMLRepository;
 import repository.TemaXMLRepository;
@@ -15,6 +17,9 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
 
 public class StudentTest {
 
@@ -67,31 +72,44 @@ public class StudentTest {
 
     @Test
     public void addStudent_Fail_OutsideHigherEdgeCase_Test() {
-        try {
-            testStudentExistence("2822", "Ionel", 110);
-            assert false;
-        } catch (ValidationException ve) {
-            assert true;
-        }
+        Assertions.assertThrowsExactly(ValidationException.class, () -> {
+            testStudentExistence("2822", "Ionel", 938);
+        });
     }
 
     @Test
     public void addStudent_Fail_OutsideLowerEdgeCase_Test() {
-        try {
-            testStudentExistence("2822", "Ionel", 938);
-            assert false;
-        } catch (ValidationException ve) {
-            assert true;
-        }
+        Assertions.assertThrowsExactly(ValidationException.class, () -> {
+            testStudentExistence("2822", "Ionel", 110);
+        });
     }
 
-    public void addStudent_Fail_Test() {
-        Iterable<Student> initialStudentList = service.findAllStudents();
+    @Test
+    public void addStudent_Fail_NullNameException_Test() {
+        Assertions.assertThrowsExactly(ValidationException.class, () -> {
+            testStudentExistence("2822", null, 111);
+        });
+    }
 
-        service.saveStudent("2822", "Ionel", 50);
-        Iterable<Student> newStudentList = service.findAllStudents();
+    @Test
+    public void addStudent_Fail_EmptyNameException_Test() {
+        Assertions.assertThrowsExactly(ValidationException.class, () -> {
+            testStudentExistence("2822", "", 111);
+        });
+    }
 
-        assert initialStudentList.equals(newStudentList);
+    @Test
+    public void addStudent_Fail_NullIdException_Test() {
+        Assertions.assertThrowsExactly(ValidationException.class, () -> {
+            testStudentExistence(null, "Ionel", 111);
+        });
+    }
+
+    @Test
+    public void addStudent_Fail_EmptyIdException_Test() {
+        Assertions.assertThrowsExactly(ValidationException.class, () -> {
+            testStudentExistence("", "Ionel", 111);
+        });
     }
 
     private void writeEmptyXMLFile(String filenameWithExtension, String mainEntityBracket) {
