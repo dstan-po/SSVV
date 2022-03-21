@@ -38,8 +38,7 @@ public class StudentTest {
     @Test
     public void Test_addStudent_Success_Test() {
         Student newStudent = new Student("2822", "Ionel", 223);
-        service.saveStudent("28223", "Ionel", 223);
-        System.out.println("BEFORE");
+        service.saveStudent("2822", "Ionel", 223);
         Iterable<Student> newStudentList = service.findAllStudents();
 
         for (Student student : newStudentList) {
@@ -51,6 +50,7 @@ public class StudentTest {
 
     @Test
     public void Test_addStudent_Fail_Test() {
+        System.out.println(service);
         Iterable<Student> initialStudentList = service.findAllStudents();
 
         service.saveStudent("2822", "Ionel", 50);
@@ -75,6 +75,17 @@ public class StudentTest {
 
     @BeforeEach
     public void resetFiles() {
+        Validator<Student> studentValidator = new StudentValidator();
+        Validator<Tema> temaValidator = new TemaValidator();
+        Validator<Nota> notaValidator = new NotaValidator();
+
+
+        StudentXMLRepository fileRepository1 = new StudentXMLRepository(studentValidator, "test_studenti.xml");
+        TemaXMLRepository fileRepository2 = new TemaXMLRepository(temaValidator, "test_teme.xml");
+        NotaXMLRepository fileRepository3 = new NotaXMLRepository(notaValidator, "test_note.xml");
+
+        service = new Service(fileRepository1, fileRepository2, fileRepository3);
+
         writeEmptyXMLFile("test_studenti.xml", "Entitati");
     }
 }
