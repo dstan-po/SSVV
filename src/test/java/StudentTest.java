@@ -16,12 +16,13 @@ import validation.Validator;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class StudentTest {
 
     public static Service service;
 
-    @Before
     public void setup() {
         Validator<Student> studentValidator = new StudentValidator();
         Validator<Tema> temaValidator = new TemaValidator();
@@ -35,22 +36,42 @@ public class StudentTest {
         service = new Service(fileRepository1, fileRepository2, fileRepository3);
     }
 
-    @Test
-    public void addStudent_Success_Test() {
-        Student newStudent = new Student("2822", "Ionel", 223);
-        service.saveStudent("2822", "Ionel", 223);
+    private Boolean testStudentExistence(String id, String name, Integer studentId) {
+        Student newStudent = new Student(id, name, studentId);
+        service.saveStudent(id, name, studentId);
         Iterable<Student> newStudentList = service.findAllStudents();
 
         for (Student student : newStudentList) {
             if (student.equals(newStudent))
-                return;
+                return true;
         }
-        assert false;
+        return false;
     }
 
     @Test
+    public void addStudent_Success_LowerEdgeCase_Test() {
+        assert testStudentExistence("2822", "Ionel", 111);
+    }
+
+    @Test
+    public void addStudent_Success_LowerBoundaryCase_Test() {
+        assert testStudentExistence("2822", "Ionel", 112);
+    }
+
+    @Test
+    public void addStudent_Success_HigherEdgeCase_Test() {
+        assert testStudentExistence("2822", "Ionel", 937);
+    }
+
+    @Test
+    public void addStudent_Success_HigherBoundaryCase_Test() {
+        assert testStudentExistence("2822", "Ionel", 936);
+    }
+
+
+
+    @Test
     public void addStudent_Fail_Test() {
-        System.out.println(service);
         Iterable<Student> initialStudentList = service.findAllStudents();
 
         service.saveStudent("2822", "Ionel", 50);
@@ -75,17 +96,7 @@ public class StudentTest {
 
     @BeforeEach
     public void resetFiles() {
-        Validator<Student> studentValidator = new StudentValidator();
-        Validator<Tema> temaValidator = new TemaValidator();
-        Validator<Nota> notaValidator = new NotaValidator();
-
-
-        StudentXMLRepository fileRepository1 = new StudentXMLRepository(studentValidator, "test_studenti.xml");
-        TemaXMLRepository fileRepository2 = new TemaXMLRepository(temaValidator, "test_teme.xml");
-        NotaXMLRepository fileRepository3 = new NotaXMLRepository(notaValidator, "test_note.xml");
-
-        service = new Service(fileRepository1, fileRepository2, fileRepository3);
-
+        setup();
         writeEmptyXMLFile("test_studenti.xml", "Entitati");
     }
 }
