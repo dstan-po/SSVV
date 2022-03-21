@@ -1,11 +1,9 @@
 import domain.Nota;
 import domain.Student;
 import domain.Tema;
-import org.junit.Before;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.omg.CORBA.portable.ApplicationException;
 import repository.NotaXMLRepository;
 import repository.StudentXMLRepository;
 import repository.TemaXMLRepository;
@@ -15,10 +13,6 @@ import validation.*;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-
-import static org.junit.jupiter.api.Assertions.assertThrows;
 
 
 public class StudentTest {
