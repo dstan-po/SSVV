@@ -99,6 +99,11 @@ public class StudentTest {
     }
 
     @Test
+    public void addStudent_Success_CorrectName_Test() {
+        assert testStudentExistence("2822", "a", 937);
+    }
+
+    @Test
     public void addStudent_Fail_NullIdException_Test() {
         Assertions.assertThrowsExactly(ValidationException.class, () -> {
             testStudentExistence(null, "Ionel", 111);
@@ -110,6 +115,11 @@ public class StudentTest {
         Assertions.assertThrowsExactly(ValidationException.class, () -> {
             testStudentExistence("", "Ionel", 111);
         });
+    }
+
+    @Test
+    public void addStudent_Success_CorrectId_Test() {
+        assert testStudentExistence("a", "a", 937);
     }
 
     private void writeEmptyXMLFile(String filenameWithExtension, String mainEntityBracket) {

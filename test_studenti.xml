@@ -4,4 +4,8 @@
 <Nume>Ionel</Nume>
 <Grupa>937</Grupa>
 </student>
+<student ID="a">
+<Nume>a</Nume>
+<Grupa>937</Grupa>
+</student>
 </Entitati>
