@@ -44,6 +44,13 @@ public class StudentTest {
         return false;
     }
 
+    /**
+     * BVA of the group of the student
+     * Invalid (min -1): 110
+     * Valid (min, +min, -max, max): 111, 112, 936, 937
+     * Invalid (max +1): 938
+     */
+
     @Test
     public void addStudent_Success_LowerEdgeCase_Test() {
         assert testStudentExistence("2822", "Ionel", 111);
@@ -78,6 +85,12 @@ public class StudentTest {
         });
     }
 
+    /**
+     * BVA of the name of the student
+     * Invalid: null, or empty string ""
+     * Valid: Any string longer than 1 char
+     */
+
     @Test
     public void addStudent_Fail_NullNameException_Test() {
         Assertions.assertThrowsExactly(ValidationException.class, () -> {
@@ -96,6 +109,12 @@ public class StudentTest {
     public void addStudent_Success_CorrectName_Test() {
         assert testStudentExistence("2822", "a", 937);
     }
+
+    /**
+     * BVA of the id of the student
+     * Invalid: null, or empty string ""
+     * Valid: Any string longer than 1 char
+     */
 
     @Test
     public void addStudent_Fail_NullIdException_Test() {
