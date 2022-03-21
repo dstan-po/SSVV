@@ -8,10 +8,7 @@ import repository.NotaXMLRepository;
 import repository.StudentXMLRepository;
 import repository.TemaXMLRepository;
 import service.Service;
-import validation.NotaValidator;
-import validation.StudentValidator;
-import validation.TemaValidator;
-import validation.Validator;
+import validation.*;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -68,9 +65,26 @@ public class StudentTest {
         assert testStudentExistence("2822", "Ionel", 936);
     }
 
-
+    @Test
+    public void addStudent_Fail_OutsideHigherEdgeCase_Test() {
+        try {
+            testStudentExistence("2822", "Ionel", 110);
+            assert false;
+        } catch (ValidationException ve) {
+            assert true;
+        }
+    }
 
     @Test
+    public void addStudent_Fail_OutsideLowerEdgeCase_Test() {
+        try {
+            testStudentExistence("2822", "Ionel", 938);
+            assert false;
+        } catch (ValidationException ve) {
+            assert true;
+        }
+    }
+
     public void addStudent_Fail_Test() {
         Iterable<Student> initialStudentList = service.findAllStudents();
 
