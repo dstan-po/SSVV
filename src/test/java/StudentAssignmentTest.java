@@ -53,11 +53,6 @@ public class StudentAssignmentTest {
         return res == 1;
     }
 
-    //        if (result == null) {
-    //            return 1;
-    //        }
-    //        return 0;
-
     @Test
     public void addAssignment_Success_AddAssignment_Test() {
         assert testAssignmentExistence("test_id_add", "test_desc", 2, 1);
