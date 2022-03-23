@@ -47,7 +47,10 @@ public class StudentAssignmentTest {
     }
 
     private Boolean testAssignmentExistence(String id, String description, int deadline, int startLine) {
-        return service.saveTema(id, description, deadline, startLine) == 1;
+        Integer res = service.saveTema(id, description, deadline, startLine);
+        System.out.println(id);
+        System.out.println(res);
+        return res == 1;
     }
 
     //        if (result == null) {
@@ -57,18 +60,18 @@ public class StudentAssignmentTest {
 
     @Test
     public void addAssignment_Success_AddAssignment_Test() {
-        assert testAssignmentExistence("test_id", "test_desc", 2, 1);
+        assert testAssignmentExistence("test_id_add", "test_desc", 2, 1);
     }
 
     @Test
     public void addAssignment_Fail_AddAssignment_Test() {
-        testAssignmentExistence("test_id", "test_desc", 2, 1);
-        assert !testAssignmentExistence("test_id", "test_desc", 2, 1);
+        testAssignmentExistence("test_id_fail", "test_desc", 2, 1);
+        assert !testAssignmentExistence("test_id_fail", "test_desc", 2, 1);
     }
 
     @BeforeEach
     public void resetFiles() {
-        setup();
         writeEmptyXMLFile("test_teme.xml", "Teme");
+        setup();
     }
 }

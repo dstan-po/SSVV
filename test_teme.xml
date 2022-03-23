@@ -1,3 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<Teme>
-</Teme>
+<Entitati>
+<tema ID="test_id_add">
+<Descriere>test_desc</Descriere>
+<Deadline>2</Deadline>
+<Startline>1</Startline>
+</tema>
+</Entitati>
