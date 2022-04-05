@@ -1,16 +1,14 @@
 import domain.Nota;
 import domain.Student;
 import domain.Tema;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import repository.NotaXMLRepository;
 import repository.StudentXMLRepository;
 import repository.TemaXMLRepository;
 import service.Service;
-import validation.NotaValidator;
-import validation.StudentValidator;
-import validation.TemaValidator;
-import validation.Validator;
+import validation.*;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -47,22 +45,58 @@ public class StudentAssignmentTest {
     }
 
     private Boolean testAssignmentExistence(String id, String description, int deadline, int startLine) {
-        Integer res = service.saveTema(id, description, deadline, startLine);
-        System.out.println(id);
-        System.out.println(res);
+        int res = service.saveTema(id, description, deadline, startLine);
         return res == 1;
     }
 
     @Test
-    public void addAssignment_Success_AddAssignment_Test() {
+    public void addAssignment_Success_AddExistingAssignment_Test() {
+        service.saveTema("test_id_add", "test_desc", 2, 1);
+        assert !testAssignmentExistence("test_id_add", "test_desc", 2, 1);
+    }
+
+
+    @Test
+    public void addAssignment_Success_AddNonExistentAssignment_Test() {
         assert testAssignmentExistence("test_id_add", "test_desc", 2, 1);
     }
 
     @Test
-    public void addAssignment_Fail_AddAssignment_Test() {
-        testAssignmentExistence("test_id_fail", "test_desc", 2, 1);
-        assert !testAssignmentExistence("test_id_fail", "test_desc", 2, 1);
+    public void addAssignment_Success_AddExistingAndWriteToFile_Test() {
+        service.saveTema("test_write", "test_write_desc", 2, 1);
+        assert !testAssignmentExistence("test_write", "test_write_desc", 2, 1);
     }
+
+    @Test
+    public void addAssignment_Success_AddNonExistingAndNotWriteToFile_Test() {
+        assert testAssignmentExistence("test_not_written", "test_not_written", 2, 1);
+    }
+
+    @Test
+    public void addAssignment_Fail_AddInvalidIdEmpty_Test() {
+        Assertions.assertThrowsExactly(ValidationException.class, () -> testAssignmentExistence("", "test_desc", 1, 2));
+    }
+
+    @Test
+    public void addAssignment_Fail_AddInvalidIdNull_Test() {
+        Assertions.assertThrowsExactly(ValidationException.class, () -> testAssignmentExistence(null, "test_desc", 1, 2));
+    }
+
+    @Test
+    public void addAssignment_Fail_AddInvalidDescriptionNull_Test() {
+        Assertions.assertThrowsExactly(ValidationException.class, () -> testAssignmentExistence("test_id", null, 1, 2));
+    }
+
+    @Test
+    public void addAssignment_Fail_AddInvalidDeadline_Test() {
+        Assertions.assertThrowsExactly(ValidationException.class, () -> testAssignmentExistence("test_id", "test_desc", 1, 2));
+    }
+
+    @Test
+    public void addAssignment_Fail_AddInvalidStartLine_Test() {
+        Assertions.assertThrowsExactly(ValidationException.class, () -> testAssignmentExistence("test_id", "test_desc", 1, -1));
+    }
+
 
     @BeforeEach
     public void resetFiles() {

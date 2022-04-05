@@ -21,12 +21,12 @@ public class StudentTest {
 
     public void setup() {
         Validator<Student> studentValidator = new StudentValidator();
-        Validator<Tema> temaValidator = new TemaValidator();
+        Validator<Tema> homeworkValidator = new TemaValidator();
         Validator<Nota> notaValidator = new NotaValidator();
 
 
         StudentXMLRepository fileRepository1 = new StudentXMLRepository(studentValidator, "test_studenti.xml");
-        TemaXMLRepository fileRepository2 = new TemaXMLRepository(temaValidator, "test_teme.xml");
+        TemaXMLRepository fileRepository2 = new TemaXMLRepository(homeworkValidator, "test_teme.xml");
         NotaXMLRepository fileRepository3 = new NotaXMLRepository(notaValidator, "test_note.xml");
 
         service = new Service(fileRepository1, fileRepository2, fileRepository3);
@@ -104,6 +104,8 @@ public class StudentTest {
             testStudentExistence("2822", "", 111);
         });
     }
+
+    //TODO: EXCEL HELP
 
     @Test
     public void addStudent_Success_CorrectName_Test() {
