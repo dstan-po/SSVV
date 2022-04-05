@@ -105,8 +105,6 @@ public class StudentTest {
         });
     }
 
-    //TODO: EXCEL HELP
-
     @Test
     public void addStudent_Success_CorrectName_Test() {
         assert testStudentExistence("2822", "a", 937);
