@@ -101,7 +101,7 @@ public class StudentIntegrationTest {
     @Test
     public void addGrade_Success_Test() {
         service.saveNota("before_student", "before_tema", 1, 1, "groaznic");
-        assert testGradeExistence(new Pair("before_student", "before_tema"), 3.5, 1, "groaznic");
+        assert testGradeExistence(new Pair("before_student", "before_tema"), 1.0, 1, "groaznic");
     }
 
     @Test
@@ -109,7 +109,7 @@ public class StudentIntegrationTest {
         service.saveStudent("id", "nume", 937);
         service.saveTema("id_tema", "descriere", 2, 1);
         service.saveNota("id", "id_tema", 1, 1, "groaznic");
-        assert testGradeExistence(new Pair("id", "id_tema"), 3.5, 1, "groaznic");
+        assert testGradeExistence(new Pair("id", "id_tema"), 1.0, 1, "groaznic");
     }
 
 }
