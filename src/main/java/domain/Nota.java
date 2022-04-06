@@ -1,5 +1,7 @@
 package domain;
 
+import java.util.Objects;
+
 public class Nota implements HasID<Pair<String, String>> {
     Pair<String, String> idNota;
     private double nota;
@@ -56,5 +58,18 @@ public class Nota implements HasID<Pair<String, String>> {
                 ", saptamanaPredare = " + saptamanaPredare +
                 ", feedback = '" + feedback + '\'' +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Nota nota1 = (Nota) o;
+        return Double.compare(nota1.nota, nota) == 0 && saptamanaPredare == nota1.saptamanaPredare && Objects.equals(idNota, nota1.idNota) && Objects.equals(feedback, nota1.feedback);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(idNota, nota, saptamanaPredare, feedback);
     }
 }

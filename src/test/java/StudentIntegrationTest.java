@@ -1,7 +1,10 @@
 import domain.Nota;
+import domain.Pair;
 import domain.Student;
 import domain.Tema;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import repository.NotaXMLRepository;
 import repository.StudentXMLRepository;
@@ -19,8 +22,8 @@ import java.io.IOException;
 public class StudentIntegrationTest {
     public static Service service;
 
-    @BeforeAll
-    public static void setup() {
+    @BeforeEach
+    public void setup() {
         Validator<Student> studentValidator = new StudentValidator();
         Validator<Tema> homeworkValidator = new TemaValidator();
         Validator<Nota> notaValidator = new NotaValidator();
@@ -34,9 +37,12 @@ public class StudentIntegrationTest {
         writeEmptyXMLFile("test_studenti.xml", "Entitati");
         writeEmptyXMLFile("test_teme.xml", "Teme");
         writeEmptyXMLFile("test_note.xml", "Entitati");
+
+        service.saveStudent("before_student", "nume", 937);
+        service.saveTema("before_tema", "descriere", 2, 1);
     }
 
-    private static void writeEmptyXMLFile(String filenameWithExtension, String mainEntityBracket) {
+    private void writeEmptyXMLFile(String filenameWithExtension, String mainEntityBracket) {
         try {
             File myObj = new File(filenameWithExtension);
 
@@ -70,6 +76,16 @@ public class StudentIntegrationTest {
         return false;
     }
 
+    private Boolean testGradeExistence(Pair<String, String> idNota, double nota, int saptamanaPredare, String feedback) {
+        Nota newNota = new Nota(idNota, nota, saptamanaPredare, feedback);
+        Iterable<Nota> newNotaList = service.findAllNote();
+
+        for (Nota notaFound : newNotaList)
+            if (notaFound.equals(newNota))
+                return true;
+        return false;
+    }
+
     @Test
     public void addAssignment_Success_Test() {
         service.saveTema("id", "descriere", 2, 1);
@@ -81,4 +97,19 @@ public class StudentIntegrationTest {
         service.saveStudent("id", "nume", 937);
         assert testStudentExistence("id", "nume", 937);
     }
+
+    @Test
+    public void integration_Test() {
+        service.saveStudent("id", "nume", 937);
+        service.saveTema("id_tema", "descriere", 2, 1);
+        service.saveNota("id", "id_tema", 1, 1, "groaznic");
+        assert testGradeExistence(new Pair("id", "id_tema"), 3.5, 1, "groaznic");
+    }
+
+    @Test
+    public void addGrade_Success_Test() {
+        service.saveNota("before_student", "before_tema", 1, 1, "groaznic");
+        assert testGradeExistence(new Pair("before_student", "before_tema"), 3.5, 1, "groaznic");
+    }
+
 }
