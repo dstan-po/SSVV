@@ -153,5 +153,7 @@ public class StudentTest {
     public void resetFiles() {
         setup();
         writeEmptyXMLFile("test_studenti.xml", "Entitati");
+        writeEmptyXMLFile("test_teme.xml", "Teme");
+        writeEmptyXMLFile("test_note.xml", "Entitati");
     }
 }
