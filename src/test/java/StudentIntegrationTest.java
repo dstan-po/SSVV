@@ -91,19 +91,40 @@ public class StudentIntegrationTest {
     }
 
     @Test
-    public void addStudent_Success_Test() {
-        service.saveStudent("id", "nume", 937);
-        assert testStudentExistence("id", "nume", 937);
-    }
-
-    @Test
     public void addGrade_Success_Test() {
         service.saveNota("before_student", "before_tema", 1, 1, "groaznic");
         assert testGradeExistence(new Pair("before_student", "before_tema"), 1.0, 1, "groaznic");
     }
 
     @Test
+    public void addStudent_Success_Test() {
+        service.saveStudent("id", "nume", 937);
+        assert testStudentExistence("id", "nume", 937);
+    }
+
+    @Test
     public void integration_Test() {
+        service.saveStudent("id", "nume", 937);
+        service.saveTema("id_tema", "descriere", 2, 1);
+        service.saveNota("id", "id_tema", 1, 1, "groaznic");
+        assert testGradeExistence(new Pair("id", "id_tema"), 1.0, 1, "groaznic");
+    }
+
+    @Test
+    public void integration_addStudent_Success_Test() {
+        service.saveStudent("id", "nume", 937);
+        assert testStudentExistence("id", "nume", 937);
+    }
+
+    @Test
+    public void integration_addAssignment_Success_Test() {
+        service.saveStudent("id", "nume", 937);
+        service.saveTema("id_tema", "descriere", 2, 1);
+        assert testAssignmentExistence("id_tema", "descriere", 2, 1);
+    }
+
+    @Test
+    public void integration_addGrade_Success_Test() {
         service.saveStudent("id", "nume", 937);
         service.saveTema("id_tema", "descriere", 2, 1);
         service.saveNota("id", "id_tema", 1, 1, "groaznic");
