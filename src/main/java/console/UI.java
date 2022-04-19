@@ -5,6 +5,7 @@ import domain.Student;
 import domain.Tema;
 import service.Service;
 
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class UI {
@@ -85,10 +86,14 @@ public class UI {
         System.out.println("Introduceti saptamana startline a temei: ");
         int startline = scanner.nextInt();
 
-        if (service.saveTema(id, descriere, deadline, startline) != 0) {
-            System.out.println("Tema adaugata cu succes! \n");
-        } else {
-            System.out.println("Tema existenta sau invalida! \n");
+        try {
+            if (service.saveTema(id, descriere, deadline, startline) != 0) {
+                System.out.println("Tema adaugata cu succes! \n");
+            } else {
+                System.out.println("Tema existenta sau invalida! \n");
+            }
+        } catch (Exception e) {
+            System.out.println(e);
         }
     }
 
@@ -192,7 +197,12 @@ public class UI {
 
         while (cmd != 0) {
             System.out.println("Introduceti comanda: ");
-            cmd = scanner.nextInt();
+            try {
+                cmd = scanner.nextInt();
+            } catch (InputMismatchException e) {
+                System.out.println("Incorrect input");
+                scanner.nextLine();
+            }
 
             switch (cmd) {
                 case 11:
