@@ -46,11 +46,11 @@ public class NotaXMLRepository extends AbstractXMLRepository<Pair<String, String
         String idStudent = notaObj.getID().getObject1();
         StudentValidator sval = new StudentValidator();
         TemaValidator tval = new TemaValidator();
-        StudentFileRepository srepo = new StudentFileRepository(sval, "studenti.txt");
-        TemaFileRepository trepo = new TemaFileRepository(tval, "teme.txt");
+        StudentXMLRepository srepo = new StudentXMLRepository(sval, "studenti.xml");
+        TemaXMLRepository trepo = new TemaXMLRepository(tval, "teme.xml");
 
         Student student = srepo.findOne(idStudent);
-        try (BufferedWriter bw = new BufferedWriter(new FileWriter(student.getNume() + ".txt", false))) {
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter(student.getNume() + ".xml", false))) {
             super.findAll().forEach(nota -> {
                 if (nota.getID().getObject1().equals(idStudent)) {
                     try {
