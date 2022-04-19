@@ -5,6 +5,7 @@ import validation.ValidationException;
 import validation.Validator;
 
 import java.io.*;
+import java.util.Arrays;
 import java.util.stream.Collectors;
 
 public class StudentFileRepository extends AbstractFileRepository<String, Student> {
@@ -18,6 +19,7 @@ public class StudentFileRepository extends AbstractFileRepository<String, Studen
         try (BufferedReader buffer = new BufferedReader(new FileReader(filename))) {
             buffer.lines().collect(Collectors.toList()).forEach(line -> {
                 String[] result = line.split("#");
+                System.out.println(Arrays.toString(result));
                 Student student = new Student(result[0], result[1], Integer.parseInt(result[2]));
                 try {
                     super.save(student);

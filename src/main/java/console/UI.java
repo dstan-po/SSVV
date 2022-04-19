@@ -191,6 +191,7 @@ public class UI {
         printMenu();
 
         while (cmd != 0) {
+            printMenu();
             System.out.println("Introduceti comanda: ");
             cmd = scanner.nextInt();
 
